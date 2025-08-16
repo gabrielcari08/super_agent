@@ -19,7 +19,20 @@ class TaskStatus(str, enum.Enum):
     in_progress = "In Progress"
     finished = "Finished"
     cancelled = "Cancelled"
-
+    
+class SubjectType(str, enum.Enum):
+    math = "Math"
+    chemistry = "Chemistry"
+    physics = "Physics"
+    language_and_literature = "Language and Literature"
+    history = "History"
+    philosophy = "Philosophy"
+    social_sciences_workshop = "Social Sciences Workshop"
+    programming = "Programming"
+    robotics = "Robotics"
+    english = "English"
+    physical_education = "Physical Education"
+    
 #Modelo de tareas del usuario
 class Task(Base):
     
