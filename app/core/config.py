@@ -9,6 +9,14 @@ class Settings(BaseSettings):
     postgres_host: str = "localhost"
     postgres_port: str = "5432"
     
+    secret_key: str
+    algorithm: str = "HS256"
+    
+    #Minutos para que el token expire
+    access_token_expire_minutes: int = 30
+    
+    jwt_audience: str = "super-agent-app"
+    
     class Config:
         env_file = ".env"
 
