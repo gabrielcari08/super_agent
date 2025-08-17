@@ -12,3 +12,4 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     
     tasks = relationship("Task", back_populates="user")
+    expenses = relationship("Expense", back_populates="user")

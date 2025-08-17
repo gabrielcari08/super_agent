@@ -1,11 +1,12 @@
 from fastapi import FastAPI
-from app.routers import user, auth, tasks
+from app.routers import user, auth, tasks, expenses
 
 app = FastAPI()
 
 app.include_router(user.router)
 app.include_router(auth.router)
 app.include_router(tasks.router)
+app.include_router(expenses.router)
 
 @app.get("/")
 async def hello_fastapi():

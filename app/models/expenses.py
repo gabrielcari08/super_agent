@@ -10,6 +10,8 @@ class PaymentMethod(str, enum.Enum):
     
 class ExpenseCategory(str, enum.Enum):
     food = "Food"
+    drinks = "Drinks"
+    entertainment = "Entertainment"
     school = "School"
     transport = "Transport"
     health = "Health"
