@@ -53,7 +53,9 @@ async def update_task(task_id: int,
                       current_user: User = Depends(get_current_user)):
     
     # Fetch the task from the database
+    # Equivalent to: SELECT * FROM tasks WHERE id = task_id AND user_id = [ID_CURRRENT_USER] LIMIT 1
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == current_user.id).first()
+    
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
@@ -87,7 +89,9 @@ async def delete_task(task_id: int,
                       current_user: User = Depends(get_current_user)):
 
     # Fetch the task from the database
+    # Equivalent to: SELECT * FROM tasks WHERE id = task_id AND user_id = [ID_CURRRENT_USER]
     task = db.query(Task).filter(Task.id == task_id, Task.user_id == current_user.id).first()
+    
     if not task:
         raise HTTPException(status_code=404, detail="Task not found")
     
@@ -103,6 +107,7 @@ async def get_tasks(db: Session = Depends(get_db),
                     current_user: User = Depends(get_current_user)):
 
     # Fetch all tasks for the current user
+    # Equivalent to: SELECT * FROM tasks WHERE user_id = [ID_CURRRENT_USER]
     tasks = db.query(Task).filter(Task.user_id == current_user.id).all()
     
     return [{"id": task.id, "title": task.title, "subject": task.subject, "task_type": task.task_type,
