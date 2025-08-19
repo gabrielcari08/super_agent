@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.auth.dependency import get_current_user, get_db
 from app.schemas.tasks import TaskCreate, TaskUpdate
-from app.models.tasks import Task
+from app.models.tasks import Task, TaskType, TaskStatus, TaskPriority, SubjectType
 from app.models.user import User
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
@@ -115,4 +115,74 @@ async def get_tasks(db: Session = Depends(get_db),
              "date_of_presentation": task.date_of_presentation, "status": task.status,
              "priority": task.priority} for task in tasks]
     
+#Endpoint for get a specific task by subject.
+@router.get("/get_tasks_of_subject")
+async def get_task(subject: SubjectType,
+                   db: Session = Depends(get_db),
+                   current_user: User = Depends(get_current_user)):
+    
+    # Fetch the task by subject for the current user
+    # Equivalent to: SELECT * FROM tasks WHERE subject = subject AND user_id = [ID_CURRRENT_USER]
+    tasks = db.query(Task).filter(Task.subject == subject, Task.user_id == current_user.id).all()
+    
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+    
+    return [{"id": task.id, "title": task.title, "subject": task.subject, "task_type": task.task_type,
+             "description": task.description, "date_of_task": task.date_of_task,
+             "date_of_presentation": task.date_of_presentation, "status": task.status,
+             "priority": task.priority} for task in tasks]
 
+#Endpoint for get a specific task by task type.
+@router.get("/get_tasks_of_type")
+async def get_task(task_type: TaskType,
+                   db: Session = Depends(get_db),
+                   current_user: User = Depends(get_current_user)):
+    
+    # Fetch the task by type for the current user
+    # Equivalent to: SELECT * FROM tasks WHERE task_type = task_type AND user_id = [ID_CURRRENT_USER]
+    tasks = db.query(Task).filter(Task.task_type == task_type, Task.user_id == current_user.id).all()
+    
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+    
+    return [{"id": task.id, "title": task.title, "subject": task.subject, "task_type": task.task_type,
+             "description": task.description, "date_of_task": task.date_of_task,
+             "date_of_presentation": task.date_of_presentation, "status": task.status,
+             "priority": task.priority} for task in tasks]
+    
+#Endpoint for get a specific task by status.
+@router.get("/get_tasks_of_status")
+async def get_task(status: TaskStatus,
+                   db: Session = Depends(get_db),
+                   current_user: User = Depends(get_current_user)):
+    
+    # Fetch the task by status for the current user
+    # Equivalent to: SELECT * FROM tasks WHERE status = status AND user_id = [ID_CURRRENT_USER]
+    tasks = db.query(Task).filter(Task.status == status, Task.user_id == current_user.id).all()
+    
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+    
+    return [{"id": task.id, "title": task.title, "subject": task.subject, "task_type": task.task_type,
+             "description": task.description, "date_of_task": task.date_of_task,
+             "date_of_presentation": task.date_of_presentation, "status": task.status,
+             "priority": task.priority} for task in tasks]
+    
+#Endpoint for get a specific task by priority.
+@router.get("/get_tasks_of_priority")
+async def get_task(priority: TaskPriority,
+                   db: Session = Depends(get_db),
+                   current_user: User = Depends(get_current_user)):
+    
+    # Fetch the task by priority for the current user
+    # Equivalent to: SELECT * FROM tasks WHERE priority = priority AND user_id = [ID_CURRRENT_USER]
+    tasks = db.query(Task).filter(Task.priority == priority, Task.user_id == current_user.id).all()
+    
+    if not tasks:
+        raise HTTPException(status_code=404, detail="Tasks not found")
+    
+    return [{"id": task.id, "title": task.title, "subject": task.subject, "task_type": task.task_type,
+             "description": task.description, "date_of_task": task.date_of_task,
+             "date_of_presentation": task.date_of_presentation, "status": task.status,
+             "priority": task.priority} for task in tasks]
