@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.auth.dependency import get_current_user, get_db
-from app.models.expenses import Expense
+from app.models.expenses import Expense, PaymentMethod, ExpenseCategory
 from app.models.user import User
 from app.schemas.expenses import ExpenseCreate, ExpenseUpdate
 from datetime import datetime
@@ -114,4 +114,44 @@ async def get_expenses(db: Session = Depends(get_db),
              "category": expense.category, "payment_method": expense.payment_method,
              "date_of_expense": expense.date_of_expense} for expense in expenses]
     
+#Endpoint to get a specific expense by payment method
+@router.get("/get_expense_by_payment_method")
+async def get_expense_by_payment_method(payment_method: PaymentMethod,
+                                        db: Session = Depends(get_db),
+                                        current_user: User = Depends(get_current_user)):
     
+    #Fetch expenses of the current user with the specified payment method
+    #Equivalent to: SELECT * FROM expenses 
+    #               WHERE user_id = [ID_CURRENT_USER] AND payment_method = payment_method
+    expenses = db.query(Expense)\
+        .filter(Expense.user_id == current_user.id,
+                Expense.payment_method == payment_method)\
+        .all()
+        
+    if not expenses:
+        raise HTTPException(status_code=404, detail="No expenses found for the specified payment method")
+    
+    return [{"id": expense.id, "product": expense.product, "amount": expense.amount,
+             "category": expense.category, "payment_method": expense.payment_method,
+             "date_of_expense": expense.date_of_expense} for expense in expenses]
+    
+#Endpoint to get a specific expense by category
+@router.get("/get_expense_by_category")
+async def get_expense_by_category(category: ExpenseCategory,
+                                  db: Session = Depends(get_db),
+                                  current_user: User = Depends(get_current_user)):
+    
+    #Fetch expenses of the current user with the specified category
+    #Equivalent to: SELECT * FROM expenses 
+    #               WHERE user_id = [ID_CURRENT_USER] AND category = category
+    expenses = db.query(Expense)\
+        .filter(Expense.user_id == current_user.id,
+                Expense.category == category)\
+        .all()
+        
+    if not expenses:
+        raise HTTPException(status_code=404, detail="No expenses found for the specified category")
+    
+    return [{"id": expense.id, "product": expense.product, "amount": expense.amount,
+             "category": expense.category, "payment_method": expense.payment_method,
+             "date_of_expense": expense.date_of_expense} for expense in expenses]
