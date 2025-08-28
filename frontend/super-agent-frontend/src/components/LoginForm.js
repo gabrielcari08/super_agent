@@ -1,7 +1,11 @@
+
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 
-const LoginForm = () => {
+
+const LoginForm = ({ onLogin }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: '',
     surname: '',
@@ -24,8 +28,11 @@ const LoginForm = () => {
     try {
       const result = await authService.login(formData);
       setMessage(result.message || '¡Login exitoso!');
-      // Aquí puedes guardar el token o redirigir al usuario
       setFormData({ name: '', surname: '', password: '' });
+      if (onLogin) {
+        onLogin();
+      }
+      navigate('/home');
     } catch (error) {
       setError(error.message);
     }
