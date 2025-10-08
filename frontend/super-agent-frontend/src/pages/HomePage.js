@@ -4,11 +4,20 @@
 // Da la bienvenida al usuario y muestra las opciones principales de la app (añadir tarea, añadir gasto, etc.).
 
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // The HomePage component renders the welcome message and main options.
 // El componente HomePage renderiza el mensaje de bienvenida y las opciones principales.
 
 const HomePage = () => {
+	const navigate = useNavigate();
+
+	// Handler for Tasks button
+	// Manejador para el botón Tasks
+	const handleTasks = () => {
+		navigate('/tasks');
+	};
+
 	return (
 		<div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
 			{/* Welcome message */}
@@ -17,7 +26,7 @@ const HomePage = () => {
 			{/* Main options (add task, add expense, etc.) */}
 			{/* Opciones principales (añadir tarea, añadir gasto, etc.) */}
 			<div style={{ marginTop: '30px', display: 'flex', gap: '20px' }}>
-				<button style={{ padding: '12px 24px', fontSize: '16px' }}>Tasks</button>
+				<button onClick={handleTasks} style={{ padding: '12px 24px', fontSize: '16px' }}>Tasks</button>
 				<button style={{ padding: '12px 24px', fontSize: '16px' }}>Expenses</button>
 				{/* You can add more options here / Puedes agregar más opciones aquí */}
 			</div>

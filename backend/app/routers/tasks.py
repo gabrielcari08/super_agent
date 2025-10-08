@@ -70,8 +70,8 @@ async def update_task(task_id: int,
         task.description = task_data.description
     if task_data.date_of_task is not None:
         task.date_of_task = task_data.date_of_task
-    if task_data.date_of_presenation is not None:
-        task.date_of_presentation = task_data.date_of_presenation
+    if task_data.date_of_presentation is not None:
+        task.date_of_presentation = task_data.date_of_presentation
     if task_data.status is not None:
         task.status = task_data.status
     if task_data.priority is not None:

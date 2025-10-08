@@ -27,6 +27,10 @@ const LoginForm = ({ onLogin }) => {
     setMessage('');
     try {
       const result = await authService.login(formData);
+      // Save JWT token in localStorage
+      if (result.access_token) {
+        localStorage.setItem('access_token', result.access_token);
+      }
       setMessage(result.message || '¡Login exitoso!');
       setFormData({ name: '', surname: '', password: '' });
       if (onLogin) {

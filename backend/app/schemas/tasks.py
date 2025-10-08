@@ -10,7 +10,7 @@ class TaskCreate(BaseModel):
     task_type: TaskType
     description: str
     date_of_task: Optional[datetime] = None
-    date_of_presenation: datetime
+    date_of_presentation: datetime
     status: TaskStatus = TaskStatus.pending
     priority: TaskPriority = TaskPriority.medium
     
@@ -21,7 +21,7 @@ class TaskUpdate(BaseModel):
     task_type: Optional[TaskType] = None
     description: Optional[str] = None
     date_of_task: Optional[datetime] = None
-    date_of_presenation: Optional[datetime] = None
+    date_of_presentation: Optional[datetime] = None
     status: Optional[TaskStatus] = None
     priority: Optional[TaskPriority] = None
     

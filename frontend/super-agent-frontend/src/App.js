@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import AuthPage from './pages/AuthPage';
 import HomePage from './pages/HomePage';
+import TasksPage from './pages/TasksPage';
+import TaskListPage from './pages/TaskListPage';
 import './App.css';
 
 // Simulated authentication state. Replace with real auth logic (e.g., JWT, context, etc.).
@@ -33,6 +35,12 @@ const App = () => {
           {/*If authenticated, show HomePage. */}
           {/*Si está autenticado, mostrar HomePage. */}
           <Route path="/home" element={<HomePage onLogout={handleLogout} />} />
+          {/*If authenticated, show TasksPage. */}
+          {/*Si está autenticado, mostrar TasksPage. */}
+          <Route path="/tasks" element={<TasksPage />} />
+          {/*If authenticated, show TaskListPage. */}
+          {/*Si está autenticado, mostrar TaskListPage. */}
+          <Route path="/tasks/list" element={<TaskListPage />} />
           {/*Redirect based on authentication state. */}
           {/*Redirigir según el estado de autenticación. */}
           <Route path="*" element={isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/auth" />} />
